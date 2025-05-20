@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prediksi Penyakit Jantung Berdasarkan UCI Heart Disease Data</title>
+  <h2>Dataset</h2>
+  <a href="https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data">https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data</a>
+  <h3>Model: Logistic Regression</h3>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Form Prediksi Penyakit Jantung</h2>
+    <div class="flexbox">
+      <div class="form-section">
+        <form method="POST" action="/predict">
+        <label>Nama Pasien:</label>
+        <input name="nama" placeholder="Contoh: Budi" required>
+        
+          <label>Umur (tahun):</label>
+          <input name="age" placeholder="Contoh: 45" required>
+
+          <label>Jenis Kelamin:</label>
+          <select name="sex">
+            <option value="Male">Laki-laki</option>
+            <option value="Female">Perempuan</option>
+          </select>
+
+          <label>Jenis Nyeri Dada (cp):</label>
+          <select name="cp">
+            <option value="typical angina">Typical Angina</option>
+            <option value="atypical angina">Atypical Angina</option>
+            <option value="non-anginal pain">Non-Anginal Pain</option>
+            <option value="asymptomatic">Asymptomatic</option>
+          </select>
+
+          <label>Tekanan Darah Istirahat (mm Hg) (trestbps):</label>
+          <input name="trestbps" placeholder="Contoh: 130" required>
+
+          <label>Kadar Kolesterol (mg/dl) (chol):</label>
+          <input name="chol" placeholder="Contoh: 210" required>
+
+          <label>Gula Darah Puasa > 120 mg/dl (fbs):</label>
+          <select name="fbs">
+            <option value="True">Ya</option>
+            <option value="False">Tidak</option>
+          </select>
+
+          <label>Hasil EKG Saat Istirahat (restecg):</label>
+          <select name="restecg">
+            <option value="normal">Normal</option>
+            <option value="abnormal">Abnormal</option>
+          </select>
+
+          <label>Detak Jantung Maksimum (thalch):</label>
+          <input name="thalch" placeholder="Contoh: 150" required>
+
+          <label>Nyeri Dada Saat Beraktivitas Fisik (exang):</label>
+          <select name="exang">
+            <option value="True">Ya</option>
+            <option value="False">Tidak</option>
+          </select>
+
+          <label>Depresi ST Setelah Latihan (oldpeak):</label>
+          <input name="oldpeak" placeholder="Contoh: 1.4" required>
+
+          <label>Kemiringan Segmen ST (slope):</label>
+          <select name="slope">
+            <option value="upsloping">Upsloping</option>
+            <option value="flat">Flat</option>
+            <option value="downsloping">Downsloping</option>
+          </select>
+
+          <label>Jumlah Pembuluh Darah Berwarna (ca):</label>
+          <input name="ca" placeholder="Contoh: 0" required>
+
+          <label>Jenis Aliran Darah (thal):</label>
+          <select name="thal">
+            <option value="normal">Normal</option>
+            <option value="fixed defect">Fixed Defect</option>
+            <option value="reversable defect">Reversable Defect</option>
+          </select>
+
+          <button type="submit">Prediksi</button>
+        </form>
+
+        {% if result %}
+        <div class="result"><strong>Hasil:</strong> {{ result }}</div>
+        {% endif %}
+      </div>
+
+      <div class="table-section">
+      <h3>Nilai Rujukan Parameter Pemeriksaan</h3>
+        <table border="1" cellpadding="5" style="margin-bottom: 15px;">
+          <tr>
+            <th>Parameter</th>
+            <th>Nilai Normal / Kategori</th>
+            <th>Keterangan</th>
+          </tr>
+          <tr>
+            <td>cp</td>
+            <td>typical angina</td>
+            <td>Nyeri dada khas (paling ringan); asymptomatic = Tanpa gejala & paling berisiko</td>
+          </tr>
+          <tr>
+            <td>trestbps</td>
+            <td>&lt; 130 mmHg</td>
+            <td>Tekanan darah istirahat, &gt;130 = hipertensi ringan</td>
+          </tr>
+          <tr>
+            <td>chol</td>
+            <td>&lt; 200 mg/dL</td>
+            <td>Kolesterol total, &gt;240 = tinggi</td>
+          </tr>
+          <tr>
+            <td>fbs</td>
+            <td>Tidak</td>
+            <td>Tidak jika glukosa puasa &lt; 120 mg/dL</td>
+          </tr>
+          <tr>
+            <td>restecg</td>
+            <td>normal</td>
+            <td>Hasil EKG saat istirahat</td>
+          </tr>
+          <tr>
+            <td>thalch</td>
+            <td>60–100 bpm</td>
+            <td>Detak jantung maksimal (disesuaikan usia)</td>
+          </tr>
+          <tr>
+            <td>exang</td>
+            <td>Tidak</td>
+            <td>Tidak = tidak muncul nyeri saat olahraga</td>
+          </tr>
+          <tr>
+            <td>oldpeak</td>
+            <td>&lt; 2.0</td>
+            <td>ST depression; semakin tinggi = semakin berisiko</td>
+          </tr>
+          <tr>
+            <td>slope</td>
+            <td>upsloping</td>
+            <td>Kemiringan segmen ST setelah latihan</td>
+          </tr>
+          <tr>
+            <td>ca</td>
+            <td>0–3</td>
+            <td>Jumlah pembuluh darah utama yang terlihat (0 = normal)</td>
+          </tr>
+          <tr>
+            <td>thal</td>
+            <td>normal</td>
+            <td>Jenis aliran darah (thalassemia); fixed/reversable = abnormalitas</td>
+          </tr>
+        </table>                
+        {% if history %}
+        <h3>Riwayat Prediksi</h3>
+        <table border="1" cellpadding="5">
+          <tr>
+            <th>Nama</th><th>Umur</th><th>Gender</th><th>cp</th><th>trestbps</th><th>chol</th><th>fbs</th>
+            <th>restecg</th><th>thalch</th><th>exang</th><th>oldpeak</th><th>slope</th>
+            <th>ca</th><th>thal</th><th>Hasil</th><th>Aksi</th>
+          </tr>
+          {% for row in history %}
+          <tr>
+            <td>{{ row["nama"] }}</td>
+            <td>{{ row["age"] }}</td>
+            <td>{{ row["sex"] }}</td>
+            <td>{{ row["cp"] }}</td>
+            <td>{{ row["trestbps"] }}</td>
+            <td>{{ row["chol"] }}</td>
+            <td>{{ row["fbs"] }}</td>
+            <td>{{ row["restecg"] }}</td>
+            <td>{{ row["thalach"] }}</td>
+            <td>{{ row["exang"] }}</td>
+            <td>{{ row["oldpeak"] }}</td>
+            <td>{{ row["slope"] }}</td>
+            <td>{{ row["ca"] }}</td>
+            <td>{{ row["thal"] }}</td>
+            <td>{{ row["hasil"] }}</td>
+            <td>
+              <form method="POST" action="/delete/{{ row['id'] }}" style="display:inline;">
+                <button class="secondary-button" type="submit">Hapus</button>
+              </form>
+              <form method="GET" action="/edit/{{ row['id'] }}" style="display:inline;">
+                <button class="secondary-button" type="submit">Edit</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        <div style="margin-bottom: 10px;">
+          <form method="POST" action="/reset" style="display:inline;">
+            <button type="submit" class="secondary-button">Reset Riwayat</button>
+          </form>
+          <form method="GET" action="/download" style="display:inline;">
+            <button type="submit" class="secondary-button">Simpan ke CSV</button>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

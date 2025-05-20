@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Data Prediksi</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Data Prediksi ID {{ row['id'] }}</h2>
+    <form method="POST">
+   
+      <label>Nama Pasien:</label>
+      <input name="nama" value="{{ row['nama'] }}" required>
+   
+      <label>Umur:</label>
+      <input name="age" value="{{ row['age'] }}" required>
+
+      <label>Jenis Kelamin:</label>
+      <select name="sex">
+        <option value="Male" {% if row['sex'] == 'Male' %}selected{% endif %}>Laki-laki</option>
+        <option value="Female" {% if row['sex'] == 'Female' %}selected{% endif %}>Perempuan</option>
+      </select>
+
+      <label>Jenis Nyeri Dada:</label>
+      <select name="cp">
+        <option value="typical angina" {% if row['cp'] == 'typical angina' %}selected{% endif %}>Typical Angina</option>
+        <option value="atypical angina" {% if row['cp'] == 'atypical angina' %}selected{% endif %}>Atypical Angina</option>
+        <option value="non-anginal pain" {% if row['cp'] == 'non-anginal pain' %}selected{% endif %}>Non-Anginal Pain</option>
+        <option value="asymptomatic" {% if row['cp'] == 'asymptomatic' %}selected{% endif %}>Asymptomatic</option>
+      </select>
+
+      <label>Tekanan Darah Istirahat:</label>
+      <input name="trestbps" value="{{ row['trestbps'] }}" required>
+
+      <label>Kolesterol:</label>
+      <input name="chol" value="{{ row['chol'] }}" required>
+
+      <label>Gula Darah Puasa > 120 mg/dl:</label>
+      <select name="fbs">
+        <option value="True" {% if row['fbs'] == 'True' %}selected{% endif %}>Ya</option>
+        <option value="False" {% if row['fbs'] == 'False' %}selected{% endif %}>Tidak</option>
+      </select>
+
+      <label>Hasil EKG Saat Istirahat:</label>
+      <select name="restecg">
+        <option value="normal" {% if row['restecg'] == 'normal' %}selected{% endif %}>Normal</option>
+        <option value="abnormal" {% if row['restecg'] == 'abnormal' %}selected{% endif %}>Abnormal</option>
+      </select>
+
+      <label>Detak Jantung Maksimum:</label>
+      <input name="thalch" value="{{ row['thalach'] }}" required>
+
+      <label>Nyeri Dada Saat Latihan:</label>
+      <select name="exang">
+        <option value="True" {% if row['exang'] == 'True' %}selected{% endif %}>Ya</option>
+        <option value="False" {% if row['exang'] == 'False' %}selected{% endif %}>Tidak</option>
+      </select>
+
+      <label>Depresi ST Setelah Latihan:</label>
+      <input name="oldpeak" value="{{ row['oldpeak'] }}" required>
+
+      <label>Kemiringan ST (slope):</label>
+      <select name="slope">
+        <option value="upsloping" {% if row['slope'] == 'upsloping' %}selected{% endif %}>Upsloping</option>
+        <option value="flat" {% if row['slope'] == 'flat' %}selected{% endif %}>Flat</option>
+        <option value="downsloping" {% if row['slope'] == 'downsloping' %}selected{% endif %}>Downsloping</option>
+      </select>
+
+      <label>Jumlah Pembuluh Darah (ca):</label>
+      <input name="ca" value="{{ row['ca'] }}" required>
+
+      <label>Jenis Thal:</label>
+      <select name="thal">
+        <option value="normal" {% if row['thal'] == 'normal' %}selected{% endif %}>Normal</option>
+        <option value="fixed defect" {% if row['thal'] == 'fixed defect' %}selected{% endif %}>Fixed Defect</option>
+        <option value="reversable defect" {% if row['thal'] == 'reversable defect' %}selected{% endif %}>Reversable Defect</option>
+      </select>
+
+      <button type="submit">Simpan Perubahan</button>
+    </form>
+    <br>
+    <a href="/">← Kembali ke Riwayat</a>
+  </div>
+</body>
+</html>
