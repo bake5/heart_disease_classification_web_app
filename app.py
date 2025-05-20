@@ -176,5 +176,5 @@ def edit(id):
             return "Data tidak ditemukan", 404
         return render_template("edit.html", row=row)
 
-if __name__ == "__main__":
-    app.run(debug=True, port=1000, use_reloader=False)
+#if __name__ == "__main__":
+#    app.run(debug=True, port=1000, use_reloader=False)
